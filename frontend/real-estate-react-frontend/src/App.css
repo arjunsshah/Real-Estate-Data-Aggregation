@@ -1,8 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  color: #333333; /* Dark grey color for text */
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .logo {
@@ -39,4 +46,82 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.sidebar-tab {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333333; /* Dark grey color for text */
+}
+
+.sidebar-tab.active {
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 240px; /* Increased from 200px to 240px */
+  overflow-y: auto;
+}
+
+.home-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 40px;
+}
+
+.feature-box {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.start-button,
+.search-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+
+.start-button, .search-button {
+  background-color: #008CBA; /* Blue */
+}
+
+.start-button:hover, .search-button:hover {
+  background-color: #007B9A; /* Darker blue */
 }
