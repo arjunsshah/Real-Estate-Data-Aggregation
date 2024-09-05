@@ -1,0 +1,7 @@
+Unit Number,Unit Size (sq ft),Unit Type,Current Rent per Sq Ft ($),Monthly Rent ($),Annual Rent ($),Lease Start Date,Lease End Date,Tenant Name,Lease Type,Vacancy Rate (%),Effective Rent per Sq Ft ($),Operating Expenses ($/sq ft),Property Management Fee (%),Total Operating Expenses ($),Net Operating Income (NOI) ($),Cap Rate (%),Estimated Property Value ($)
+101,1500,Office,20,3000,36000,2023-01-01,2026-01-01,Acme Corp,Gross,5,19.0,3.0,5,4500,31500,6.5,484615
+102,1200,Retail,25,3000,36000,2022-06-01,2025-06-01,Retailer A,Net,10,22.5,4.0,5,4800,31200,6.0,520000
+103,1600,Office,22,3520,42240,2023-03-01,2026-03-01,Biz Solutions,Modified Gross,5,20.9,3.5,5,5600,36640,6.2,591613
+201,1800,Retail,27,4050,48600,2022-01-01,2025-01-01,Retailer B,Net,8,24.84,4.5,5,8100,40500,5.8,698276
+202,1400,Office,21,2940,35280,2023-05-01,2026-05-01,Consulting Inc,Gross,7,19.53,3.2,5,4480,30800,6.3,488889
+203,2000,Retail,30,5000,60000,2021-10-01,2024-10-01,Retailer C,Modified Gross,5,28.5,5.0,5,10000,50000,5.5,909091

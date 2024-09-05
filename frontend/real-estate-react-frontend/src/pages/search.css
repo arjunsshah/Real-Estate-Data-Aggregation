@@ -3,13 +3,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 200px; /* Adjust this value to match your sidebar width */
+  margin-left: 200px;
 }
 
 .back-button {
   position: absolute;
   top: 20px;
-  left: 260px; /* Adjust this value based on your sidebar width */
+  left: 260px;
   padding: 10px 20px;
   background-color: black;
   color: white;
@@ -19,13 +19,17 @@
 }
 
 .back-button:hover {
-  background-color: #333; /* Darker shade on hover */
+  background-color: #333;
 }
 
 .search-title {
   text-align: center;
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+.upload-section {
+  margin-bottom: 20px;
 }
 
 .chat-container {
@@ -42,6 +46,22 @@
   overflow-y: auto;
   padding: 10px;
   background-color: #ffffff;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.chat-message.user {
+  background-color: #e6f2ff;
+  text-align: right;
+}
+
+.chat-message.bot {
+  background-color: #f0f0f0;
+  text-align: left;
 }
 
 .chat-form {

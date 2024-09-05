@@ -9,7 +9,7 @@
 .back-button {
   position: absolute;
   top: 20px;
-  left: 220px; /* Adjust this value based on your sidebar width */
+  left: 260px; /* Adjust this value based on your sidebar width */
   padding: 10px 20px;
   background-color: black;
   color: white;
@@ -19,7 +19,7 @@
 }
 
 .back-button:hover {
-  background-color: #333; /* Darker shade on hover */
+  background-color: #080404; /* Darker shade on hover */
 }
 
 .offer-memorandum-title {
@@ -153,4 +153,68 @@
 
 .chat-submit:hover {
   background-color: #45a049;
+}
+
+/* Add this at the end of your existing CSS */
+
+.response-container {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.response-container h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.response-container p {
+  white-space: pre-wrap;
+}
+
+/* Add these styles to your existing CSS file */
+
+.file-list {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.file-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  position: relative;
+}
+
+.file-name {
+  max-width: calc(100% - 80px); /* Adjust based on your remove button width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-button {
+  position: absolute;
+  right: 0;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove-button:hover {
+  background-color: #ff3333;
 }

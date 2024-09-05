@@ -1,0 +1,6 @@
+Year,Projected Gross Income ($),Vacancy Rate (%),Effective Gross Income (EGI) ($),Operating Expenses ($),Net Operating Income (NOI) ($),Capital Expenditures (CapEx) ($),Net Cash Flow (NCF) ($),Discount Rate (%),Present Value Factor,Discounted Cash Flow (DCF) ($),Cumulative DCF ($),Terminal Value ($),Discounted Terminal Value ($),Total Property Value ($)
+2024,500000,5,475000,150000,325000,25000,300000,6.5,0.9389,281670,281670,,,
+2025,525000,5,498750,157500,341250,26000,315250,6.5,0.8817,277967,559637,,,
+2026,551250,5,523688,165375,358313,27000,331313,6.5,0.8284,274414,834051,,,
+2027,578813,5,549872,173644,376228,28000,348228,6.5,0.7788,271000,1105051,,,
+2028,607754,5,577366,182326,395040,29000,366040,6.5,0.7327,267718,1372769,6086768,4456230,5828999
