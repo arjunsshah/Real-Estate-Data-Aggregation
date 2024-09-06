@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from openai import OpenAI
 import pandas as pd
@@ -113,15 +113,27 @@ def upload_file():
 
     return jsonify({"message": "Files uploaded successfully", "filenames": uploaded_files}), 200
     
-# @app.route('/chat', methods=['POST'])
-# def chat():
-#     data = request.json
-#     query = data.get('query')
-#     if not query:
-#         return jsonify({"error": "No query provided"}), 400
-    
-#     response = conversation_chain({"question": query})
-#     return jsonify({"response": response['answer']}), 200
+@app.route('/extract_file_metadata', methods=['POST'])
+def extract_file_metadata():
+    """
+    Runs an LLM to extract a files metadata upon upload
+    Makes it easier for the LLM to query documents
+    """
+    ...
+
+
+@app.route('/files', methods=['GET'])
+def get_files():
+    files = []
+    for filename in os.listdir(UPLOAD_FOLDER):
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        if os.path.isfile(file_path):
+            files.append({
+                'name': filename,
+                'size': os.path.getsize(file_path),
+                'date': os.path.getmtime(file_path)
+            })
+    return jsonify(files)
 
 
 if __name__ == '__main__':
