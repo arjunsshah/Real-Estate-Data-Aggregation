@@ -1,11 +1,42 @@
 from langchain.document_loaders import CSVLoader
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 import os
 
-def process_csv_documents(csv_files, query):
+from flask import request, jsonify
+
+FAISS_INDEX_PATH = "faiss_index"
+
+
+def list_files_in_uploads():
+    folder_path = os.path.join(os.getcwd(), "uploads")
+    current_directory = os.getcwd()
+    print(f"Current working directory: {current_directory}")
+
+    
+    try:
+        files = os.listdir(folder_path)
+        file_names = [os.path.join("uploads", file) for file in files if os.path.isfile(os.path.join(folder_path, file))]
+        return file_names
+    except FileNotFoundError:
+        return f"Folder {folder_path} does not exist."
+
+
+
+# Add Metadata to each CSV file so the model knows where the info is located
+def load_csv_with_metadata(file_path):
+    loader = CSVLoader(file_path)
+    documents = loader.load()
+    file_name = os.path.basename(file_path)
+    for doc in documents:
+        doc.metadata['source'] = file_name
+        doc.page_content = f"File: {file_name}\n\n" + doc.page_content
+    return documents
+
+
+def process_csv_documents(csv_files):
     # Set the OpenAI API key
     os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
@@ -14,9 +45,9 @@ def process_csv_documents(csv_files, query):
 
     # Load and process each CSV file
     for csv_file in csv_files:
-        loader = CSVLoader(file_path=csv_file)
-        documents = loader.load()
+        documents = load_csv_with_metadata(csv_file)
         all_documents.extend(documents)
+
 
     # Create embeddings
     embeddings = OpenAIEmbeddings()
@@ -24,21 +55,35 @@ def process_csv_documents(csv_files, query):
     # Create a vector store
     vector_store = FAISS.from_documents(all_documents, embeddings)
 
-    # Create a retriever
-    retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+    vector_store.save_local(FAISS_INDEX_PATH)
 
-    # Initialize the language model
+
+
+def run_query(query):
+    # query = request.json.get('query')
+    # query = "What is in BOV Income data file"
+
+    if not query:
+        return jsonify({"error": "Missing OpenAI API key or query"}), 400
+    
+    os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
+    embeddings = OpenAIEmbeddings()
+    vector_store = FAISS.load_local(FAISS_INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
+    
     llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
+    qa_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vector_store.as_retriever())
 
-    # Create a RetrievalQA chain
-    qa_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
-
-    # Run the query
     result = qa_chain.run(query)
 
     return result
 
-csv_files = ["../uploads/BOV_Income_Data.csv", "../uploads/BOV_Property_Information.csv"]
 
-result = process_csv_documents(csv_files=csv_files, query="Return in the following format: document_name: description of document. Output as a list")
-print(result)
+
+
+
+# csv_files = ["../uploads/BOV_Income_Data.csv", "../uploads/BOV_Property_Information.csv"]
+
+# process_csv_documents(csv_files=csv_files)
+# result = run_query()
+# print(result)

@@ -19,7 +19,7 @@ from langchain.llms import OpenAI
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 import uuid
-
+import model_testing.chunking_test as chunking_model
 import csv
 
 app = Flask(__name__)
@@ -113,14 +113,25 @@ def upload_file():
 
     return jsonify({"message": "Files uploaded successfully", "filenames": uploaded_files}), 200
     
-@app.route('/extract_file_metadata', methods=['POST'])
-def extract_file_metadata():
-    """
-    Runs an LLM to extract a files metadata upon upload
-    Makes it easier for the LLM to query documents
-    """
-    ...
 
+@app.route('/embed_documents_for_retrieval', methods=['POST'])
+def embed_documents():
+    """
+    Embed documents and allow them to be queried for retreival
+    """
+    csv_files = chunking_model.list_files_in_uploads()
+    print(csv_files)
+    chunking_model.process_csv_documents(csv_files)
+    return jsonify({"message": "Documents embedded and stored successfully!"})
+
+@app.route('/query_documents', methods=['POST'])
+def query_documents():
+    """
+    Query Embedded Documents
+    """
+    query = request.json.get('query')
+    result = chunking_model.run_query(query)
+    return jsonify({"result": result}), 200
 
 @app.route('/files', methods=['GET'])
 def get_files():
