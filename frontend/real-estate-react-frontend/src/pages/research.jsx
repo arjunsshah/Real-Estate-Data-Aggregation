@@ -1,5 +1,13 @@
 import React, { useState, useRef } from 'react'
 import './research.css'
+import TableComponent from '../components/TableComponent';
+
+const data = [
+  { Name: "John Doe", Age: 28, Occupation: "Engineer" },
+  { Name: "Jane Smith", Age: 32, Occupation: "Designer" },
+  { Name: "Sam Johnson", Age: 22, Occupation: "Developer" }
+];
+
 
 function OfferMemorandum({ onBackClick }) {
   const [files, setFiles] = useState([])
@@ -119,6 +127,11 @@ function OfferMemorandum({ onBackClick }) {
           {isLoading ? 'Processing...' : 'Send'}
         </button>
       </form>
+
+      {/* <div>
+      <h1>Simple Styled Table</h1>
+      <TableComponent data={data} />
+    </div> */}
 
       {response && (
         <div className="response-container">
