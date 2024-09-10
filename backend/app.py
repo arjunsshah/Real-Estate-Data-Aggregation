@@ -11,7 +11,8 @@ from langchain.llms import OpenAI
 from langchain.docstore.document import Document
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
-
+import redis
+import json
 from langchain.document_loaders import TextLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
@@ -30,6 +31,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 @app.route('/process-data', methods=['POST'])
@@ -90,6 +93,35 @@ def process_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+
+@app.route('/visualize_query', methods=['POST'])
+def visualize_query():
+    query = request.json.get('query')
+
+    # Check if the result is already cached
+    cached_data = r.get(query)
+
+    if cached_data:
+        # If data is cached, return it
+        print('in redis cache')
+        return jsonify(json.loads(cached_data))
+
+    # Else, compute the result and cache it
+    if query == "Show sales by month for 2024":
+        data = {
+            "labels": ["January", "February", "March", "April", "May", "June"],
+            "data": [120, 190, 300, 500, 250, 320],
+            "chartType": "bar"
+        }
+
+        # Cache the result in Redis (with an optional expiration time)
+        r.set(query, json.dumps(data), ex=60*60*24)  # Cache for 24 hours
+
+        return jsonify(data)
+
+    else:
+        return jsonify({"error": "Unknown query"}), 400
+ 
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

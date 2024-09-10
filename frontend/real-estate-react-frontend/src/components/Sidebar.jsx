@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Sidebar({ activeTab, setActiveTab }) {
-  const tabs = ['Home', 'Documents', 'Deals']
+  const tabs = ['Home', 'Documents', 'Dashboard']
 
   return (
     <nav className="sidebar">

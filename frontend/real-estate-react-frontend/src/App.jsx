@@ -4,6 +4,9 @@ import Sidebar from './components/Sidebar'
 import Research from './pages/research'
 import Search from './pages/search'
 import Documents from './pages/documents'
+import Dashboard from './pages/dashboard'
+import BarChart from './components/BarChart';  // Import your BarChart component
+
 
 function App() {
   const [activeTab, setActiveTab] = useState('Home')
@@ -42,12 +45,13 @@ function App() {
               <h2>Search Documents</h2>
               <button className="search-button" onClick={handleSearchClick}>Search</button>
             </div>
+      {/* <BarChart /> */}
           </div>
         );
       case 'Documents':
         return <Documents />;
-      case 'Deals':
-        return <h2>Deals</h2>;
+      case 'Dashboard':
+        return <Dashboard />;
       default:
         return null;
     }
