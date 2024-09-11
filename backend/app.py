@@ -144,7 +144,19 @@ def upload_file():
         uploaded_files.append(filename)
 
     return jsonify({"message": "Files uploaded successfully", "filenames": uploaded_files}), 200
+
+
+@app.route('/test_chart_generator', methods=['POST'])
+def test_chart_generator():
+    """
+    Test function for chart generation
+    """
+
+    query = request.json.get('query')
+    print(f"query: {query}")
+    result = chunking_model.determine_chart_type(query)
     
+    return jsonify({"result": result}), 200
 
 @app.route('/embed_documents_for_retrieval', methods=['POST'])
 def embed_documents():

@@ -57,6 +57,40 @@ def process_csv_documents(csv_files):
 
     vector_store.save_local(FAISS_INDEX_PATH)
 
+def determine_chart_type(query):
+
+    if not query:
+        return jsonify({"error": "Missing OpenAI API key or query"}), 400
+    
+    os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
+    embeddings = OpenAIEmbeddings()
+    vector_store = FAISS.load_local(FAISS_INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
+    
+    llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
+    qa_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vector_store.as_retriever())
+
+    chart_query = f"""Given the following user query, determine the document they are referring to. 
+    
+                    Then determine what chart (bar, line) would best be suited for that document. 
+
+                    Only return the document name and the chart type in the form: document_name, chart_type 
+
+                    Do not include any other text or words.
+
+                    Here is the user query: {query}
+                    
+                    """
+
+    result = qa_chain.run(chart_query)
+
+    # result = qa_chain.run(query)
+
+    return result
+    
+
+
+
 
 
 def run_query(query):
@@ -74,7 +108,17 @@ def run_query(query):
     llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
     qa_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vector_store.as_retriever())
 
-    result = qa_chain.run(query)
+    chart_query = f"""Given the following user query, determine the document they are referring to. 
+
+                Only return the document the user is referring to in their query.
+
+                Here is the user query: {query}
+                
+                """
+
+    result = qa_chain.run(chart_query)
+
+    # result = qa_chain.run(query)
 
     return result
 
